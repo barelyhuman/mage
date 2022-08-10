@@ -8,6 +8,7 @@ export function createState(initial: Record<string, unknown>) {
 export type Context = {
 	state?: Record<string, unknown>
 	actions?: Record<string, unknown>
+	injections?: Record<string, unknown>
 }
 
 export type ReactiveParameters = {
@@ -57,7 +58,7 @@ export function makeReactive(
 					continue
 				}
 
-				onMountCalls({state, actions})
+				onMountCalls({state, actions, injections: _injections})
 			}
 
 			return () => {
@@ -67,7 +68,7 @@ export function makeReactive(
 						continue
 					}
 
-					onDestroyCalls({state, actions})
+					onDestroyCalls({state, actions, injections: _injections})
 				}
 			}
 		}, [])
