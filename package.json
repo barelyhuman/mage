@@ -9,11 +9,20 @@
 		"name": "reaper",
 		"email": "ahoy@barelyhuman.dev"
 	},
+	"main":"dist/index.js",
+	"module":"dist/index.js",
 	"type": "module",
 	"publishConfig": {
 		"access": "public"
 	},
-	"exports": "./dist/index.js",
+	"exports": {
+		"./package.json":"./package.json",
+		".":{
+			"import":"./dist/index.js",
+			"require":"./dist/index.js",
+			"default":"./dist/index.js"
+		}
+	},
 	"engines": {
 		"node": ">=12"
 	},
