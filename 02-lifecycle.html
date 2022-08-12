@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mage | documentation</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+
+<header class="container">
+<nav>
+
+
+    <a href=/mage/index>..</a>
+
+    <a href=/mage/01-basics> basics</a>
+
+    <a href=/mage/02-lifecycle> lifecycle</a>
+
+    <a href=/mage/03-injections> injections</a>
+
+</nav>
+</header>
+<main class="container">
+<h1 id="lifecycle">Lifecycle</h1>
+<p>Component lifecycle is basically a way to control what happens<br />
+when a component is mounted and when unmounted, so the reactive<br />
+components will in most cases, need a way to define behaviour when<br />
+a component mounts and when it unmounts.</p>
+<p>Now in most cases all you need is mount and unmount and I'd like to move away from the side-effect of a change mentality so that's all that this library provides.</p>
+<pre><code class="language-js">import {makeReactive} from '@barelyhuman/mage'
+
+makeReactive(() =&gt; &lt;&gt;&lt;/&gt;, {
+	state,
+	actions,
+	injections,
+	onMount({state, actions, injections, props}) {
+		console.log(&quot;I've mounted&quot;)
+	},
+	onDestroy({state, actions, injections, props}) {
+		console.log('hello darkness, my old friend!')
+	},
+})
+</code></pre>
+<p>You get the <code>state, actions, injections, props</code> passed to you in both cases<br />
+since you might need to use the initial props while doing something.</p>
+<p><strong>But what if I wish to do something when the props changes?</strong><br />
+Valid point, a <code>onPropChange</code> is in the works</p>
+</main><footer class="container">
+    Built with <a href="http://github.com/barelyhuman/alvu">alvu</a>
+</footer>
+</body>
+</html>

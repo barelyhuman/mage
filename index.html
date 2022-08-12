@@ -17,6 +17,10 @@
 
     <a href=/mage/01-basics> basics</a>
 
+    <a href=/mage/02-lifecycle> lifecycle</a>
+
+    <a href=/mage/03-injections> injections</a>
+
 </nav>
 </header>
 <main class="container">
@@ -35,7 +39,9 @@ yarn add @barelyhuman/mage valtio
 pnpm add @barelyhuman/mage valtio
 </code></pre>
 <h3 id="quick-copy">Quick Copy</h3>
-<pre><code class="language-js">const state = createState({count: 0})
+<pre><code class="language-js">import {createState, makeReactive} from '@barelyhuman/mage'
+
+const state = createState({count: 0})
 const actions = {
 	inc() {
 		state.count += 1
