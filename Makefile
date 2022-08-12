@@ -1,3 +1,6 @@
+www:
+	mkdir -p www
+
 docs: www
 	alvu --path=./docs --out www --baseurl=/mage/
 
