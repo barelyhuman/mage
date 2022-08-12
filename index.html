@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mage | documentation</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+
+<header class="container">
+<nav>
+
+
+    <a href=/index>..</a>
+
+    <a href=/01-basics> basics</a>
+
+</nav>
+</header>
+<main class="container">
+<h1 id="barelyhumanmage">@barelyhuman/mage</h1>
+<blockquote>
+<p>stateful + logical abstraction layer for react</p>
+</blockquote>
+<h2 id="usage">Usage</h2>
+<pre><code class="language-sh">npm install @barelyhuman/mage
+# or
+yarn add @barelyhuman/mage
+# or
+pnpm add @barelyhuman/mage
+</code></pre>
+<h3 id="quick-copy">Quick Copy</h3>
+<pre><code class="language-js">const state = createState({count: 0})
+const actions = {
+	inc() {
+		state.count += 1
+	},
+}
+
+function ComponentImpl() {
+	return (
+		&lt;&gt;
+			&lt;p&gt;{state.count}&lt;/p&gt;
+			&lt;button onClick={actions.inc}&gt;+&lt;/button&gt;
+		&lt;/&gt;
+	)
+}
+
+const Component = makeReactive(ComponentImpl, {state, actions})
+
+export default Component
+</code></pre>
+<h2 id="about">About</h2>
+<blockquote>
+<p><strong>Note</strong>: This library isn't a mandatory requirement, most of what it does can be done by using something like <a href="https://valtio.pmnd.rs">valtio</a> or <a href="http://jotai.org">jotai</a> and maintaining local state in the component file and not inside the component and side effects being thrown out of your head and using manual action based triggers inside other actions. (how you'd write normal javascript)</p>
+</blockquote>
+<p>The reason for mage to exist was to abstract and block the usage of hooks in<br />
+functional components. This became necessary after libraries dropping support<br />
+for class based components and specifically writing stuff for hooks (I'm also<br />
+someone who's done this). So, this library is just to help you avoid writing<br />
+hooks by giving a better way to write just javascript in react</p>
+<p>Hooks, inherently aren't bad but the usage abuse of everything having to be a<br />
+hook and libraries polluting this space ends up creating code where a functional<br />
+component has more hooks than it has rendering logic.</p>
+<p>This also ends up with mix and match between hooks that aren't composable.</p>
+<p>For example, custom hooks that use redux and then manipulated hooks that use<br />
+that redux state can cause a lot of re-renders, which can be avoided by using<br />
+<code>refs</code> and a bit of diffing logic but that's not supposed to be that<br />
+complicated.</p>
+<p>This is where it's necessary for that abstraction to be taken up by a utility.</p>
+<h2 id="docs">Docs</h2>
+<p>You can read more about the usage and API by checking the<br />
+<a href="docs/pages">docs/pages</a> folder in the repo or by visiting the <a href="https://barelyhuman.github.io/mage/">web version →</a></p>
+<h2 id="disclaimer">Disclaimer</h2>
+<p>I have nothing against react, I like the library, I'm just not satisfied by the<br />
+direction of how things are done when using it, so this is a disciplinary<br />
+abstraction that forces you to write functional components as just that. A<br />
+function that returns a component based on props.</p>
+<h2 id="license">License</h2>
+<p><a href="license">MIT</a></p>
+</main><footer class="container">
+    Built with <a href="http://github.com/barelyhuman/alvu">alvu</a>
+</footer>
+</body>
+</html>
