@@ -25,11 +25,14 @@
 <p>stateful + logical abstraction layer for react</p>
 </blockquote>
 <h2 id="usage">Usage</h2>
-<pre><code class="language-sh">npm install @barelyhuman/mage
+<blockquote>
+<p><strong>Note</strong>: The library uses <code>valtio</code> internally to make it easier to make state as just simple mutations on the <code>state</code> variable</p>
+</blockquote>
+<pre><code class="language-sh">npm install @barelyhuman/mage valtio
 # or
-yarn add @barelyhuman/mage
+yarn add @barelyhuman/mage valtio
 # or
-pnpm add @barelyhuman/mage
+pnpm add @barelyhuman/mage valtio
 </code></pre>
 <h3 id="quick-copy">Quick Copy</h3>
 <pre><code class="language-js">const state = createState({count: 0})
