@@ -17,6 +17,8 @@ pnpm add @barelyhuman/mage valtio
 ### Quick Copy
 
 ```js
+import {createState, makeReactive} from '@barelyhuman/mage'
+
 const state = createState({count: 0})
 const actions = {
 	inc() {
