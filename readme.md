@@ -4,12 +4,14 @@
 
 ## Usage
 
+> **Note**: The library uses `valtio` internally to make it easier to make state as just simple mutations on the `state` variable
+
 ```sh
-npm install @barelyhuman/mage
+npm install @barelyhuman/mage valtio
 # or
-yarn add @barelyhuman/mage
+yarn add @barelyhuman/mage valtio
 # or
-pnpm add @barelyhuman/mage
+pnpm add @barelyhuman/mage valtio
 ```
 
 ### Quick Copy
