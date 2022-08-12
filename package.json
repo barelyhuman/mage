@@ -1,6 +1,6 @@
 {
 	"name": "@barelyhuman/mage",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "stateful + logical abstraction layer for react",
 	"license": "MIT",
 	"repository": "barelyhuman/mage",
@@ -9,18 +9,18 @@
 		"name": "reaper",
 		"email": "ahoy@barelyhuman.dev"
 	},
-	"main":"dist/index.js",
-	"module":"dist/index.js",
+	"main": "dist/index.js",
+	"module": "dist/index.js",
 	"type": "module",
 	"publishConfig": {
 		"access": "public"
 	},
 	"exports": {
-		"./package.json":"./package.json",
-		".":{
-			"import":"./dist/index.js",
-			"require":"./dist/index.js",
-			"default":"./dist/index.js"
+		"./package.json": "./package.json",
+		".": {
+			"import": "./dist/index.js",
+			"require": "./dist/index.js",
+			"default": "./dist/index.js"
 		}
 	},
 	"engines": {
