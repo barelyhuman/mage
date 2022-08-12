@@ -224,3 +224,15 @@ code {
 	font-size: 1.09em;
 	line-height: 2em;
 }
+
+.flex {
+	display: flex;
+}
+
+.spread{
+	justify-content: space-between;
+}
+
+.centerV{
+	align-items: center;
+}
