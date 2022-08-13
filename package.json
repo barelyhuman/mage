@@ -31,7 +31,9 @@
 		"test": "ava",
 		"release": "np",
 		"version": "npm run build",
-		"next": "bumpp"
+		"next": "bumpp",
+		"examples:01_minimal": "DIR=01_minimal EXT=js webpack serve",
+		"examples:02_basic_api": "DIR=02_basic_api EXT=js webpack serve"
 	},
 	"files": [
 		"dist"
@@ -48,12 +50,19 @@
 		"ava": "^4.2.0",
 		"bumpp": "^8.2.1",
 		"del-cli": "^4.0.1",
+		"html-webpack-plugin": "^5.5.0",
 		"np": "^7.6.1",
 		"prettier": "^2.6.2",
-		"react": "^18.2.0",
+		"react": "^18.0.0",
+		"react-dom": "^18.0.0",
+		"style-loader": "^3.3.1",
+		"ts-loader": "^9.3.1",
 		"ts-node": "^10.7.0",
 		"typescript": "^4.7.4",
 		"valtio": "^1.6.3",
+		"webpack": "^5.72.0",
+		"webpack-cli": "^4.9.2",
+		"webpack-dev-server": "^4.8.1",
 		"xo": "^0.48.0"
 	},
 	"prettier": {
@@ -75,7 +84,7 @@
 		]
 	},
 	"peerDependencies": {
-		"react": "^18.2.0",
+		"react": "^18.0.0",
 		"valtio": "^1.6.3"
 	}
 }
