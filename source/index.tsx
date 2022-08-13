@@ -1,47 +1,80 @@
 import React, {useEffect, useState} from 'react'
 import {proxy, subscribe} from 'valtio'
 
-export function createState(initial: Record<string, unknown>) {
+export function createState<State extends object>(initial: State) {
 	return proxy(initial)
 }
 
-export type Context = {
-	state?: Record<string, unknown>
-	actions?: Record<string, unknown>
-	injections?: Record<string, unknown>
-	props?: any
+export type Context<State, Actions, Injections> = {
+	state: State
+	actions?: Actions
+	injections?: Injections
 }
 
-export type ReactiveParameters = {
-	state?: Record<string, unknown>
-	actions?: Record<string, unknown>
-	injections?: Record<string, unknown>
-	onMount?: (ctx: Context) => void
-	onDestroy?: (ctx: Context) => void
+export type ContextWithProps<State, Actions, Injections> = Context<
+	State,
+	Actions,
+	Injections
+> & {props?: any}
+
+export type ContextWithArbitraryRecords<State, Actions, Injections> = Context<
+	State,
+	Actions,
+	Injections
+> &
+	Record<string, any>
+
+export type ReactiveParameters<State, Actions, Injections> = {
+	state: State
+	actions?: Actions
+	injections?: Injections
+	onMount?: (ctx: ContextWithProps<State, Actions, Injections>) => void
+	onDestroy?: (ctx: ContextWithProps<State, Actions, Injections>) => void
 }
 
-export function makeReactive(
-	Component: any,
-	{state, actions, injections, onMount, onDestroy}: ReactiveParameters
+type HookWrapper<State, Actions, Injections> = (
+	ctx: ContextWithProps<State, Actions, Injections>
+) => () => any
+
+export function makeReactive<
+	State extends object,
+	Actions,
+	Injections extends Record<string, HookWrapper<State, Actions, Injections>>
+>(
+	Component: React.FC<ContextWithArbitraryRecords<State, Actions, Injections>>,
+	{
+		state,
+		actions,
+		injections,
+		onMount,
+		onDestroy,
+	}: ReactiveParameters<State, Actions, Injections>
 ) {
 	const mountFuncs = [onMount].filter((x) => x)
 	const unmountFuncs = [onDestroy].filter((x) => x)
-	const _injections: any = {}
-	const userInjections: any = injections ?? {}
+	const _injections: Injections = {} as Injections
+	const userInjections: Injections = injections ?? ({} as Injections)
 
 	const injectKeys: string[] = Object.keys(userInjections)
 
 	function Wrapper({...props}) {
 		const s = useState({})
+		const ctx: Context<State, Actions, Injections> = {
+			state,
+			actions,
+			injections,
+		}
 
 		for (const key of injectKeys) {
 			if (key) {
 				const injection = userInjections[key]
 				if (
 					typeof injection === 'function' &&
-					typeof injection() === 'function'
+					typeof injection(ctx) === 'function'
 				) {
-					_injections[key] = injection()()
+					// @ts-expect-error unable to index a record of index, TS bug?
+					// FIXME: need to debug the above
+					_injections[key] = injection(ctx)()
 				}
 			}
 		}
@@ -59,7 +92,12 @@ export function makeReactive(
 					continue
 				}
 
-				onMountCalls({state, actions, injections: _injections, props})
+				onMountCalls({
+					state,
+					actions,
+					injections: _injections as Injections,
+					props,
+				})
 			}
 
 			return () => {
@@ -69,7 +107,12 @@ export function makeReactive(
 						continue
 					}
 
-					onDestroyCalls({state, actions, injections: _injections, props})
+					onDestroyCalls({
+						state,
+						actions,
+						injections: _injections as Injections,
+						props,
+					})
 				}
 			}
 		}, [])
@@ -78,7 +121,7 @@ export function makeReactive(
 			<Component
 				state={state}
 				actions={actions}
-				injections={_injections}
+				injections={_injections as Injections}
 				{...props}
 			/>
 		)
