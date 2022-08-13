@@ -1,9 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import {subscribe} from 'valtio'
+import {proxy, subscribe} from 'valtio'
 
 type HookFunc<Props> = (props: Props) => void
 
 type WrappedReactHook<Props> = (props: Props) => () => any
+
+export function createState<S extends object>(intitial: S) {
+	return proxy(intitial)
+}
 
 export function makeReactive<S extends object>(state: S) {
 	return function createWrapper<Props>(
@@ -51,9 +55,7 @@ export function makeReactive<S extends object>(state: S) {
 			unMountFuncs.push(fn)
 		}
 
-		Wrapper.inject = (
-			injections: Record<string, WrappedReactHook<Props>>
-		) => {
+		Wrapper.inject = (injections: Record<string, WrappedReactHook<Props>>) => {
 			_injections = injections
 		}
 
