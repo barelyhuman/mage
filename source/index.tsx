@@ -72,7 +72,7 @@ export function makeReactive<
 					typeof injection === 'function' &&
 					typeof injection(ctx) === 'function'
 				) {
-					// @ts-expect-error unable to index a record of index, TS bug?
+					// @ts-expect-error unable to index a record of type string with key of type string, TS bug?
 					// FIXME: need to debug the above
 					_injections[key] = injection(ctx)()
 				}
