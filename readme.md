@@ -4,7 +4,8 @@
 
 ## Usage
 
-> **Note**: The library uses `valtio` internally to make it easier to make state as just simple mutations on the `state` variable
+> **Note**: The library depends on `valtio`, so please install valtio as well
+> (ignore if already installed)
 
 ```sh
 npm install @barelyhuman/mage valtio
@@ -19,30 +20,36 @@ pnpm add @barelyhuman/mage valtio
 ```js
 import {createState, makeReactive} from '@barelyhuman/mage'
 
-const state = createState({count: 0})
-const actions = {
-	inc() {
-		state.count += 1
-	},
+const state = createState({
+	count: 0,
+})
+
+function inc() {
+	state.count += 1
 }
 
-function ComponentImpl() {
+function CounterImpl() {
 	return (
 		<>
 			<p>{state.count}</p>
-			<button onClick={actions.inc}>+</button>
+			<button onClick={inc}>+</button>
 		</>
 	)
 }
 
-const Component = makeReactive(ComponentImpl, {state, actions})
+const Component = makeReactive(state)(CounterImpl)
 
 export default Component
 ```
 
 ## About
 
-> **Note**: This library isn't a mandatory requirement, most of what it does can be done by using something like [valtio](https://valtio.pmnd.rs) or [jotai](http://jotai.org) and maintaining local state in the component file and not inside the component and side effects being thrown out of your head and using manual action based triggers inside other actions. (how you'd write normal javascript)
+> **Note**: This library isn't a mandatory requirement, most of what it does can
+> be done by using something like [valtio](https://valtio.pmnd.rs) or
+> [jotai](http://jotai.org) and maintaining local state in the component file
+> and not inside the component and side effects being thrown out of your head
+> and using manual action based triggers inside other actions. (how you'd write
+> normal javascript)
 
 The reason for mage to exist was to abstract and block the usage of hooks in
 functional components. This became necessary after libraries dropping support
@@ -66,7 +73,8 @@ This is where it's necessary for that abstraction to be taken up by a utility.
 ## Docs
 
 You can read more about the usage and API by checking the
-[docs/pages](docs/pages) folder in the repo or by visiting the [web version &rarr;](https://barelyhuman.github.io/mage/)
+[docs/pages](docs/pages) folder in the repo or by visiting the
+[web version &rarr;](https://barelyhuman.github.io/mage/)
 
 ## Disclaimer
 
