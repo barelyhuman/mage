@@ -33,7 +33,7 @@ going to assign itself the new value, in this case `hello world`
 ## Components
 
 When using mage, a component is just a view that's being returned from a
-function and so you need to change your thinking about how you used stateful
+function and so you need to change your thinking about how you use stateful
 components.
 
 ```js
@@ -44,9 +44,18 @@ function Component({aProp}) {
 
 ## Reactive Components
 
-Now, the whole point of the library is to keep components simple to discard and
-make changes to, so to make the above reactive or show something based on state
-instead of props, define the state in the same file using `createState`.
+The library tries to make it a habit for developers to write disposable and reusable
+components that aren't bound to 100's of stuff just because of how react works right now.
+
+We do this by separating the 2 base requirements of a UI component
+
+1. State
+2. Functional Logic / Business Logic
+
+When working with mage, you define state away from the actual component
+and connect it to the component using the `makeReactive` utility.
+
+State can be defined by using `createState` as shown below.
 
 ```js
 import {createState, makeReactive} from '@barelyhuman/mage'
@@ -62,19 +71,20 @@ function Component() {
 const ReactiveComponent = makeReactive(state)(Component)
 ```
 
-Now, all you're doing is using a function and a variable to create a reactive
-component that'll re-render based on changes to the state.
-
 ### Actions
 
-Just state is not what goes into a component, the business logic is also
-something that's needed, now I recommend using Class components when writing
-such components where there's a ton of business logic but, mage can do that for
-you as well.
+Next up, is the business logic.
 
-The only requirement is for the state to be injected into the component for it to be monitored
-, everything else should be just functions, so the below is how
-you'll be defining most of the behaviour
+We recommend using Class components when writing
+such components where there's a ton of business logic but since we've abstracted the state
+away from the component, business logic can be just simple functions that are passed values from
+inside the component.
+
+> **Note**: pass the needed values to the functions from inside the component as parameters where
+> necessary, use state only for values that should cause a re-render and **not** for everything you
+> wish for both the function and component to share
+
+**Example**
 
 ```js
 import {createState, makeReactive} from '@barelyhuman/mage'

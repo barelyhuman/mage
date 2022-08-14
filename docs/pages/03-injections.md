@@ -1,11 +1,13 @@
 # Injections
 
-Now, this is a "**good to have**" for all the libraries that only support hooks
-and so while I do not recommend using these libraries at all but there's
-definitely libraries that are necessary and that leaves us with no viable
-options so, in that case, you can use injections which take in a key,function
-pair. the function is to return another function in a hook form, similar to how you'd be declaring
-a custom hook
+This is a "**good to have**" for libraries that only provide hooks and so you don't have to trash your entire
+component but be able to slowly add `mage` as a disciplinary library while writing components
+and so while we do not recommend using these libraries, sometimes there's no other viable option.
+
+In which case, it's easier to just use the hooks they provide to inject them (pass them) to the
+reactive component and the reactive component only.
+
+The state and injections are kept separate to make sure you can reuse your state connector later.
 
 Eg:
 
