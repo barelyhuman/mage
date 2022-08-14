@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>mage | documentation</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<section class="container">
+			<div class="flex spread centerV">
+				<a href="."><h1>Mage</h1></a>
+				<a href="https://github.com/barelyhuman/mage">github</a>
+			</div>
+		</section>
+<header class="container">
+<nav>
+
+
+    <a href=/mage/index>..</a>
+
+    <a href=/mage/01-basics> basics</a>
+
+    <a href=/mage/02-lifecycle> lifecycle</a>
+
+    <a href=/mage/03-injections> injections</a>
+
+    <a href=/mage/04-api> api</a>
+
+</nav>
+</header>
+<main class="container">
+<h1 id="api-reference">API Reference</h1>
+<h4 id="createstate">createState</h4>
+<p>Takes in an object for the initial state and returns the same state as mutable state of the same structure</p>
+<pre><code class="language-ts">function createState&lt;S extends object&gt;(intitial: S): S
+</code></pre>
+<h4 id="makereactive">makeReactive</h4>
+<p>A curried function (or a function that returns another function) that takes in the state and the component that is supposed to listen to the state's changes.</p>
+<pre><code class="language-ts">function makeReactive&lt;S extends object&gt;(
+	state: S
+): &lt;Props&gt;(
+	Component: React.FC&lt;
+		Props &amp; {
+			state: S
+			injections: Record&lt;string, unknown&gt;
+		}
+	&gt;
+) =&gt; {
+	({...props}: Props): JSX.Element
+	onMount(fn: HookFunc&lt;Props&gt;): void
+	onDestroy(fn: HookFunc&lt;Props&gt;): void
+	inject(injections: Record&lt;string, WrappedReactHook&lt;Props&gt;&gt;): void
+}
+</code></pre>
+<p><strong>Examples</strong></p>
+<pre><code class="language-ts">const greetingState = createState({greeting: 'hello'})
+
+const connectGreetingState = makeReactive(greetingState)
+
+function Component() {
+	return &lt;&gt; {greetingState.greeting} ,world&lt;/&gt;
+}
+
+const ReactiveComponent = connectGreetingState(Component)
+
+ReactiveComponent.onMount(() =&gt; {
+	// will execute post mount
+})
+
+ReactiveComponent.onDestroy(() =&gt; {
+	// will execute pre destroy
+})
+
+ReactiveComponent.inject({
+	// .. inject data or handlers from other hooks
+})
+</code></pre>
+</main><footer class="container">
+    Built with <a href="http://codeberg.org/reaper/alvu">alvu</a>
+</footer>
+</body>
+</html>

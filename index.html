@@ -26,6 +26,8 @@
 
     <a href=/mage/03-injections> injections</a>
 
+    <a href=/mage/04-api> api</a>
+
 </nav>
 </header>
 <main class="container">
@@ -33,9 +35,16 @@
 <blockquote>
 <p>stateful + logical abstraction layer for react</p>
 </blockquote>
+<p><a href="https://bundlephobia.com/package/@barelyhuman/mage"><img src="https://img.shields.io/bundlephobia/minzip/@barelyhuman/mage?label=bundle%20size&amp;style=flat&amp;colorA=000000&amp;colorB=000000" alt="" /></a></p>
+<h2 id="highlights">Highlights</h2>
+<ul>
+<li>Tiny</li>
+<li>0 Deps</li>
+</ul>
 <h2 id="usage">Usage</h2>
 <blockquote>
-<p><strong>Note</strong>: The library uses <code>valtio</code> internally to make it easier to make state as just simple mutations on the <code>state</code> variable</p>
+<p><strong>Note</strong>: The library depends on <code>valtio</code>, so please install valtio as well<br />
+(ignore if already installed)</p>
 </blockquote>
 <pre><code class="language-sh">npm install @barelyhuman/mage valtio
 # or
@@ -46,29 +55,35 @@ pnpm add @barelyhuman/mage valtio
 <h3 id="quick-copy">Quick Copy</h3>
 <pre><code class="language-js">import {createState, makeReactive} from '@barelyhuman/mage'
 
-const state = createState({count: 0})
-const actions = {
-	inc() {
-		state.count += 1
-	},
+const state = createState({
+	count: 0,
+})
+
+function inc() {
+	state.count += 1
 }
 
-function ComponentImpl() {
+function CounterImpl() {
 	return (
 		&lt;&gt;
 			&lt;p&gt;{state.count}&lt;/p&gt;
-			&lt;button onClick={actions.inc}&gt;+&lt;/button&gt;
+			&lt;button onClick={inc}&gt;+&lt;/button&gt;
 		&lt;/&gt;
 	)
 }
 
-const Component = makeReactive(ComponentImpl, {state, actions})
+const Component = makeReactive(state)(CounterImpl)
 
 export default Component
 </code></pre>
 <h2 id="about">About</h2>
 <blockquote>
-<p><strong>Note</strong>: This library isn't a mandatory requirement, most of what it does can be done by using something like <a href="https://valtio.pmnd.rs">valtio</a> or <a href="http://jotai.org">jotai</a> and maintaining local state in the component file and not inside the component and side effects being thrown out of your head and using manual action based triggers inside other actions. (how you'd write normal javascript)</p>
+<p><strong>Note</strong>: This library isn't a mandatory requirement, most of what it does can<br />
+be done by using something like <a href="https://valtio.pmnd.rs">valtio</a> or<br />
+<a href="http://jotai.org">jotai</a> and maintaining local state in the component file<br />
+and not inside the component and side effects being thrown out of your head<br />
+and using manual action based triggers inside other actions. (how you'd write<br />
+normal javascript)</p>
 </blockquote>
 <p>The reason for mage to exist was to abstract and block the usage of hooks in<br />
 functional components. This became necessary after libraries dropping support<br />
@@ -86,7 +101,8 @@ complicated.</p>
 <p>This is where it's necessary for that abstraction to be taken up by a utility.</p>
 <h2 id="docs">Docs</h2>
 <p>You can read more about the usage and API by checking the<br />
-<a href="docs/pages">docs/pages</a> folder in the repo or by visiting the <a href="https://barelyhuman.github.io/mage/">web version →</a></p>
+<a href="docs/pages">docs/pages</a> folder in the repo or by visiting the<br />
+<a href="https://barelyhuman.github.io/mage/">web version →</a></p>
 <h2 id="disclaimer">Disclaimer</h2>
 <p>I have nothing against react, I like the library, I'm just not satisfied by the<br />
 direction of how things are done when using it, so this is a disciplinary<br />
@@ -95,7 +111,7 @@ function that returns a component based on props.</p>
 <h2 id="license">License</h2>
 <p><a href="license">MIT</a></p>
 </main><footer class="container">
-    Built with <a href="http://github.com/barelyhuman/alvu">alvu</a>
+    Built with <a href="http://codeberg.org/reaper/alvu">alvu</a>
 </footer>
 </body>
 </html>

@@ -26,35 +26,79 @@
 
     <a href=/mage/03-injections> injections</a>
 
+    <a href=/mage/04-api> api</a>
+
 </nav>
 </header>
 <main class="container">
 <h1 id="lifecycle">Lifecycle</h1>
-<p>Component lifecycle is basically a way to control what happens<br />
-when a component is mounted and when unmounted, so the reactive<br />
-components will in most cases, need a way to define behaviour when<br />
-a component mounts and when it unmounts.</p>
-<p>Now in most cases all you need is mount and unmount and I'd like to move away from the side-effect of a change mentality so that's all that this library provides.</p>
+<p>Lifecycle control is another part which cannot be avoided with a SPA (Single Page App), since<br />
+a lot of data fetching and initial logic comes into play here.</p>
+<p>Once you start using mage, there needs to be a slight mentality shift since there's no more<br />
+side-effect based changes , and the only lifecycle phases you have control over is the mount and<br />
+unmount of a component.</p>
 <pre><code class="language-js">import {makeReactive} from '@barelyhuman/mage'
 
-makeReactive(() =&gt; &lt;&gt;&lt;/&gt;, {
-	state,
-	actions,
-	injections,
-	onMount({state, actions, injections, props}) {
-		console.log(&quot;I've mounted&quot;)
-	},
-	onDestroy({state, actions, injections, props}) {
-		console.log('hello darkness, my old friend!')
-	},
+const Component = makeReactive(state)(() =&gt; &lt;&gt;&lt;/&gt;)
+
+Component.onMount((props) =&gt; {
+	console.log(&quot;I've mounted&quot;)
+})
+
+Component.onDestroy((props) =&gt; {
+	console.log('hello darkness, my old friend!')
 })
 </code></pre>
-<p>You get the <code>state, actions, injections, props</code> passed to you in both cases<br />
-since you might need to use the initial props while doing something.</p>
-<p><strong>But what if I wish to do something when the props changes?</strong><br />
-Valid point, a <code>onPropChange</code> is in the works</p>
+<p>A defined method (eg: <code>onMount</code>) helps you locate each action easily and you can have multiple<br />
+such methods to make smaller more manageable chunks, but it's <strong>highly<br />
+recommended</strong> to just add one <code>onMount</code> and <code>onDestroy</code> per component</p>
+<p>You get the <code>props</code> passed to you in both cases which are what are initially<br />
+passed to the component since you might need to use the initial props to modify<br />
+the state with certain amount of data.</p>
+<p><strong>What if I wish to do something when the props changes?</strong></p>
+<p>Your components are pure functions, they'll re-render on prop changes<br />
+automatically, it's never good to keep prop in sync with state, the state and<br />
+props play different roles in react, you should refactor how you write your component<br />
+in this case</p>
+<p><strong>What if a state changes and I wish that to trigger an effect?</strong><br />
+You trigger the function after the state change and pass it the changed state.<br />
+This keeps the effects in a single place and easier to modify and look for later than<br />
+running through 10 different <code>useEffect</code> each handling it's own set of dependencies<br />
+which cause 10 different render actions and makes it easier to make mistakes.</p>
+<p><strong>example</strong><br />
+If I wish to create an <code>alert</code> everytime I change count, here's how I'd write it.</p>
+<pre><code class="language-js">const counterState = createState({count: 0})
+
+const withCounterState = makeReactive(counterState)
+
+function inc() {
+	counterState.count += 1
+	showAlert(counterState.count)
+}
+
+function showAlert(count) {
+	alert('count increased', count)
+}
+
+function Component() {
+	return (
+		&lt;&gt;
+			&lt;p&gt;{counterState.count}&lt;/p&gt;
+			&lt;button onClick={inc}&gt;Inc&lt;/button&gt;
+		&lt;/&gt;
+	)
+}
+
+const ReactiveComponent = withCounterState(Component)
+</code></pre>
+<p>For functional programming lovers, you now have a way to keep the following separate without creating a lot of noise inside the component.</p>
+<ul>
+<li>pure functional components - render what's given and have functional triggers to change the view</li>
+<li>pure functions - same result on same parameters (<code>showAlert</code> in the above example)</li>
+<li>sideeffect functions - functions that change the state , and mostly what's the components use to trigger changes to state</li>
+</ul>
 </main><footer class="container">
-    Built with <a href="http://github.com/barelyhuman/alvu">alvu</a>
+    Built with <a href="http://codeberg.org/reaper/alvu">alvu</a>
 </footer>
 </body>
 </html>

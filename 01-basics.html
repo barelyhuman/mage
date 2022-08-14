@@ -26,17 +26,22 @@
 
     <a href=/mage/03-injections> injections</a>
 
+    <a href=/mage/04-api> api</a>
+
 </nav>
 </header>
 <main class="container">
 <h1 id="basics">Basics</h1>
-<p>Most of what is to be done is self explanatory from the <a href="/#quick-copy">Quick Copy</a> example<br />
-but let's get into explaining what can and cannot be done</p>
+<p>Most of what is to be done is self explanatory from the<br />
+<a href="/#quick-copy">Quick Copy</a> example but let's get into explaining what can and<br />
+cannot be done</p>
 <h2 id="state">State</h2>
-<p>Unlike react, a state in mage is any variable that can be edited and or modified and is supposed to re-render post that modification.<br />
-Similar to react, every state change will cause a re-render so are to be done when necessary.</p>
+<p>Unlike react, a state in mage is any variable that can be edited and or modified<br />
+and is supposed to re-render post that modification. Similar to react, every<br />
+state change will cause a re-render so are to be done when necessary.</p>
 <blockquote>
-<p><strong>Note</strong>: mage uses <a href="https://valtio.pmnd.rs">valtio</a> internally to handle state so the same rules as valtio apply to the state.</p>
+<p><strong>Note</strong>: mage uses <a href="https://valtio.pmnd.rs">valtio</a> internally to handle<br />
+state so the same rules as valtio apply to the state.</p>
 </blockquote>
 <p>Here's how you create and handle state</p>
 <pre><code class="language-js">import {createState} from '@barelyhuman/mage'
@@ -49,17 +54,27 @@ const state = createState({
 // make some change
 state.someStatefulVariableName = 'hello world'
 </code></pre>
-<p>Unless connected to a component, the above will make no difference and is just going to assign itself the new value, in this case <code>hello world</code></p>
+<p>Unless connected to a component, the above will make no difference and is just<br />
+going to assign itself the new value, in this case <code>hello world</code></p>
 <h2 id="components">Components</h2>
-<p>When using mage, a component is just a view that's being returned from a function and so you need to change your thinking about how you used stateful<br />
+<p>When using mage, a component is just a view that's being returned from a<br />
+function and so you need to change your thinking about how you use stateful<br />
 components.</p>
 <pre><code class="language-js">function Component({aProp}) {
 	return &lt;p&gt;My view is dictated by {aProp}&lt;/p&gt;
 }
 </code></pre>
 <h2 id="reactive-components">Reactive Components</h2>
-<p>Now, the whole point of the library is to keep components simple to discard and make changes to, so to make the above reactive or show<br />
-something based on state instead of props, define the state in the same file using <code>createState</code>.</p>
+<p>The library tries to make it a habit for developers to write disposable and reusable<br />
+components that aren't bound to 100's of stuff just because of how react works right now.</p>
+<p>We do this by separating the 2 base requirements of a UI component</p>
+<ol>
+<li>State</li>
+<li>Functional Logic / Business Logic</li>
+</ol>
+<p>When working with mage, you define state away from the actual component<br />
+and connect it to the component using the <code>makeReactive</code> utility.</p>
+<p>State can be defined by using <code>createState</code> as shown below.</p>
 <pre><code class="language-js">import {createState, makeReactive} from '@barelyhuman/mage'
 
 const state = createState({
@@ -70,39 +85,21 @@ function Component() {
 	return &lt;p&gt;{state.name}? Who's that?&lt;/p&gt;
 }
 
-const ReactiveComponent = makeReactive(Component, {state})
+const ReactiveComponent = makeReactive(state)(Component)
 </code></pre>
-<p>Now, all you're doing is using a function and a variable to create a reactive component that'll re-render based on changes to the state.</p>
 <h3 id="actions">Actions</h3>
-<p>Just state is not what goes into a component, the business logic is also something that's needed, now I recommend using Class components when writing such components<br />
-where there's a ton of business logic but, mage can do that for you as well.</p>
-<p>You can use actions in 2 ways.</p>
-<h4 id="injected-actions">Injected Actions</h4>
-<p>These are actions that get passed to the component as props which you can use if you wish to keep it structured.</p>
-<pre><code class="language-js">function ComponentImpl({actions}) {
-	return (
-		&lt;&gt;
-			&lt;button onClick={actions.click}&gt; The Button! &lt;/button&gt;
-		&lt;/&gt;
-	)
-}
-
-// somewhere else in the file
-
-const actions = {
-	click() {
-		console.log('hello')
-		// or change state
-		state.message = 'hello'
-	},
-}
-
-const Component = makeReactive(ComponentImpl, {actions})
-</code></pre>
-<p>This is a good to have from mage to make it easier to split into files and still be able to pass it down to other components if needed.</p>
-<h4 id="actions-as-functions">Actions as functions</h4>
-<p>Since, the only requirement is for the state to be injected into the component that's going to re-render, actions can be simple functions, so the below is totally valid.</p>
-<pre><code class="language-js">import {makeReactive, createState} from '@barelyhuman/mage'
+<p>Next up, is the business logic.</p>
+<p>We recommend using Class components when writing<br />
+such components where there's a ton of business logic but since we've abstracted the state<br />
+away from the component, business logic can be just simple functions that are passed values from<br />
+inside the component.</p>
+<blockquote>
+<p><strong>Note</strong>: pass the needed values to the functions from inside the component as parameters where<br />
+necessary, use state only for values that should cause a re-render and <strong>not</strong> for everything you<br />
+wish for both the function and component to share</p>
+</blockquote>
+<p><strong>Example</strong></p>
+<pre><code class="language-js">import {createState, makeReactive} from '@barelyhuman/mage'
 
 const state = createState({
 	greeting: 'hello',
@@ -120,10 +117,10 @@ function ComponentImpl() {
 	)
 }
 
-const Component = makeReactive(ComponentImpl, {state})
+const Component = makeReactive(state)(ComponentImpl)
 </code></pre>
 </main><footer class="container">
-    Built with <a href="http://github.com/barelyhuman/alvu">alvu</a>
+    Built with <a href="http://codeberg.org/reaper/alvu">alvu</a>
 </footer>
 </body>
 </html>

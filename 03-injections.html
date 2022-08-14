@@ -26,30 +26,21 @@
 
     <a href=/mage/03-injections> injections</a>
 
+    <a href=/mage/04-api> api</a>
+
 </nav>
 </header>
 <main class="container">
 <h1 id="injections">Injections</h1>
-<p>These are basically things that can be injected to a reactive component instance.</p>
-<ol>
-<li>State (mandatory)</li>
-<li>Actions (optional)</li>
-<li>Injections (optional, hook based injections)</li>
-</ol>
-<h2 id="state">State</h2>
-<p>This injection is mandatory for reactive components, you don't need it to be reactive otherwise.</p>
-<h2 id="actions">Actions</h2>
-<p>These as mentioned in the <a href="01-basics#actions">basics#actions</a> is optional and<br />
-can be done without it if you aren't really doing any state manipulation in which<br />
-case the component instance should be wrapped with <code>makeReactive</code> and the state<br />
-being manipulated needs to be injected into it.</p>
-<h2 id="injections-1">Injections</h2>
-<p>Now, this is for all the libraries that only support hooks and so while I do not recommend using these libraries at all but there's definitely libraries that are necessary and there's no other viable option so.</p>
-<p>In that case, you can use injections which take in a key,function pair.<br />
-the function is to return another function in a hook form.</p>
+<p>This is a &quot;<strong>good to have</strong>&quot; for libraries that only provide hooks and so you don't have to trash your entire<br />
+component but be able to slowly add <code>mage</code> as a disciplinary library while writing components<br />
+and so while we do not recommend using these libraries, sometimes there's no other viable option.</p>
+<p>In which case, it's easier to just use the hooks they provide to inject them (pass them) to the<br />
+reactive component and the reactive component only.</p>
+<p>The state and injections are kept separate to make sure you can reuse your state connector later.</p>
 <p>Eg:</p>
 <pre><code class="language-js">const injections = {
-	// redux is only an example here, you can use the `connect` api
+	// redux is only an example here, you should be able to the `connect` api
 	somethingFromRedux: () =&gt; {
 		return () =&gt; {
 			const userProfile = useSelector((s) =&gt; s.user.profile)
@@ -64,10 +55,12 @@ function ComponentImpl({injections}) {
 	return &lt;&gt;{injections.somethingFromRedux.displayName}&lt;/&gt;
 }
 
-const Component = makeReactive(ComponentImpl, {injections})
+const Component = makeReactive({})(ComponentImpl)
+
+Component.inject(injections)
 </code></pre>
 </main><footer class="container">
-    Built with <a href="http://github.com/barelyhuman/alvu">alvu</a>
+    Built with <a href="http://codeberg.org/reaper/alvu">alvu</a>
 </footer>
 </body>
 </html>
