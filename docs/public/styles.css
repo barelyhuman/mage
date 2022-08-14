@@ -236,3 +236,9 @@ code {
 .centerV{
 	align-items: center;
 }
+
+.badge img{
+	width: initial;
+	max-width: initial;
+	position: initial;
+}

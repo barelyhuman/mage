@@ -2,7 +2,7 @@
 
 > stateful + logical abstraction layer for react
 
-[![](https://img.shields.io/bundlephobia/minzip/@barelyhuman/mage?label=bundle%20size&style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/package/@barelyhuman/mage)
+<a class="badge" href="https://bundlephobia.com/package/@barelyhuman/mage"><img src="https://img.shields.io/bundlephobia/minzip/@barelyhuman/mage?label=bundle%20size&amp;style=flat&amp;colorA=000000&amp;colorB=000000" alt=""></a>
 
 ## Highlights
 
