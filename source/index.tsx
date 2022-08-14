@@ -1,131 +1,64 @@
 import React, {useEffect, useState} from 'react'
 import {proxy, subscribe} from 'valtio'
 
-export function createState<State extends object>(initial: State) {
-	return proxy(initial)
+type HookFunc<Props> = (props: Props) => void
+
+type WrappedReactHook<Props> = (props: Props) => () => any
+
+export function createState<S extends object>(intitial: S) {
+	return proxy(intitial)
 }
 
-export type Context<State, Actions, Injections> = {
-	state: State
-	actions?: Actions
-	injections?: Injections
-}
+export function makeReactive<S extends object>(state: S) {
+	return function createWrapper<Props>(
+		Component: React.FC<Props & {state: S; injections: Record<string, unknown>}>
+	) {
+		let mountFuncs: HookFunc<Props>[] = []
+		let unMountFuncs: HookFunc<Props>[] = []
+		let _injections: Record<string, WrappedReactHook<Props>> = {}
+		let injectedData: Record<string, unknown> = {}
 
-export type ContextWithProps<State, Actions, Injections> = Context<
-	State,
-	Actions,
-	Injections
-> & {props?: any}
+		function Wrapper({...props}: Props) {
+			const s = useState({})
 
-export type ContextWithArbitraryRecords<State, Actions, Injections> = Context<
-	State,
-	Actions,
-	Injections
-> &
-	Record<string, any>
-
-export type ReactiveParameters<State, Actions, Injections> = {
-	state: State
-	actions?: Actions
-	injections?: Injections
-	onMount?: (ctx: ContextWithProps<State, Actions, Injections>) => void
-	onDestroy?: (ctx: ContextWithProps<State, Actions, Injections>) => void
-}
-
-type HookWrapper<State, Actions, Injections> = (
-	ctx: ContextWithProps<State, Actions, Injections>
-) => () => any
-
-export function makeReactive<
-	State extends object,
-	Actions,
-	Injections extends Record<string, HookWrapper<State, Actions, Injections>>
->(
-	Component: React.FC<ContextWithArbitraryRecords<State, Actions, Injections>>,
-	{
-		state,
-		actions,
-		injections,
-		onMount,
-		onDestroy,
-	}: ReactiveParameters<State, Actions, Injections>
-) {
-	const mountFuncs = [onMount].filter((x) => x)
-	const unmountFuncs = [onDestroy].filter((x) => x)
-	const _injections: Injections = {} as Injections
-	const userInjections: Injections = injections ?? ({} as Injections)
-
-	const injectKeys: string[] = Object.keys(userInjections)
-
-	function Wrapper({...props}) {
-		const s = useState({})
-		const ctx: Context<State, Actions, Injections> = {
-			state,
-			actions,
-			injections,
-		}
-
-		for (const key of injectKeys) {
-			if (key) {
-				const injection = userInjections[key]
-				if (
-					typeof injection === 'function' &&
-					typeof injection(ctx) === 'function'
-				) {
-					// @ts-expect-error unable to index a record of type string with key of type string, TS bug?
-					// FIXME: need to debug the above
-					_injections[key] = injection(ctx)()
-				}
-			}
-		}
-
-		useEffect(() => {
-			let unsub: () => void
-			if (state) {
-				unsub = subscribe(state, () => {
-					s[1]({})
-				})
-			}
-
-			for (const onMountCalls of mountFuncs) {
-				if (!(onMountCalls && typeof onMountCalls === 'function')) {
+			for (const key in _injections) {
+				const hookWrapper = _injections[key]
+				if (!(hookWrapper && typeof hookWrapper === 'function')) {
 					continue
 				}
+				injectedData[key] = hookWrapper(props)()
+			}
 
-				onMountCalls({
-					state,
-					actions,
-					injections: _injections as Injections,
-					props,
+			useEffect(() => {
+				const unsub = subscribe(state, () => {
+					s[1]({})
 				})
-			}
 
-			return () => {
-				unsub?.()
-				for (const onDestroyCalls of unmountFuncs) {
-					if (!(onDestroyCalls && typeof onDestroyCalls === 'function')) {
-						continue
-					}
+				mountFuncs.forEach((x) => {
+					x(props)
+				})
 
-					onDestroyCalls({
-						state,
-						actions,
-						injections: _injections as Injections,
-						props,
+				return () => {
+					unMountFuncs.forEach((x) => {
+						x(props)
 					})
+					unsub()
 				}
-			}
-		}, [])
+			}, [])
+			return <Component state={state} injections={injectedData} {...props} />
+		}
 
-		return (
-			<Component
-				state={state}
-				actions={actions}
-				injections={_injections as Injections}
-				{...props}
-			/>
-		)
+		Wrapper.onMount = (fn: HookFunc<Props>) => {
+			mountFuncs.push(fn)
+		}
+		Wrapper.onDestroy = (fn: HookFunc<Props>) => {
+			unMountFuncs.push(fn)
+		}
+
+		Wrapper.inject = (injections: Record<string, WrappedReactHook<Props>>) => {
+			_injections = injections
+		}
+
+		return Wrapper
 	}
-
-	return Wrapper
 }

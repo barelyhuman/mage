@@ -1,34 +1,19 @@
 # Injections
 
-These are basically things that can be injected to a reactive component instance.
+This is a "**good to have**" for libraries that only provide hooks and so you don't have to trash your entire
+component but be able to slowly add `mage` as a disciplinary library while writing components
+and so while we do not recommend using these libraries, sometimes there's no other viable option.
 
-1. State (mandatory)
-2. Actions (optional)
-3. Injections (optional, hook based injections)
+In which case, it's easier to just use the hooks they provide to inject them (pass them) to the
+reactive component and the reactive component only.
 
-## State
-
-This injection is mandatory for reactive components, you don't need it to be reactive otherwise.
-
-## Actions
-
-These as mentioned in the [basics#actions](01-basics#actions) is optional and
-can be done without it if you aren't really doing any state manipulation in which
-case the component instance should be wrapped with `makeReactive` and the state
-being manipulated needs to be injected into it.
-
-## Injections
-
-Now, this is for all the libraries that only support hooks and so while I do not recommend using these libraries at all but there's definitely libraries that are necessary and there's no other viable option so.
-
-In that case, you can use injections which take in a key,function pair.
-the function is to return another function in a hook form.
+The state and injections are kept separate to make sure you can reuse your state connector later.
 
 Eg:
 
 ```js
 const injections = {
-	// redux is only an example here, you can use the `connect` api
+	// redux is only an example here, you should be able to the `connect` api
 	somethingFromRedux: () => {
 		return () => {
 			const userProfile = useSelector((s) => s.user.profile)
@@ -43,5 +28,7 @@ function ComponentImpl({injections}) {
 	return <>{injections.somethingFromRedux.displayName}</>
 }
 
-const Component = makeReactive(ComponentImpl, {injections})
+const Component = makeReactive({})(ComponentImpl)
+
+Component.inject(injections)
 ```
