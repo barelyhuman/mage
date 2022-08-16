@@ -1,12 +1,20 @@
 {
-	"extends": "@mvllow/tsconfig",
-	"compilerOptions": {
-		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true,
-		"module": "esnext",
-		"allowJs": true,
-		"checkJs": true,
-		"outDir": "dist"
-	},
-	"include": ["source"]
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "removeComments": true,
+    "target": "esnext",
+    "declaration": true,
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "jsx": "react",
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "@barelyhuman/choxy": ["./core/index.ts"]
+    }
+  },
+  "include": ["core"],
+  "exclude": ["./**/dist", "node_modules", "test"]
 }
