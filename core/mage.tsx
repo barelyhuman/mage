@@ -23,9 +23,9 @@ export function makeReactive<S extends Record<string, unknown>>(state: S) {
 
 			for (const key in _injections) {
 				const hookWrapper = _injections[key]
-				if (!(hookWrapper && typeof hookWrapper === 'function')) {
+				if (!(hookWrapper && typeof hookWrapper === 'function'))
 					continue
-				}
+
 
 				injectedData[key] = hookWrapper(props)()
 			}
@@ -35,14 +35,14 @@ export function makeReactive<S extends Record<string, unknown>>(state: S) {
 					s[1]({})
 				})
 
-				for (const x of mountFuncs) {
+				for (const x of mountFuncs)
 					x({...props, injections: _injections})
-				}
+
 
 				return () => {
-					for (const x of unMountFuncs) {
+					for (const x of unMountFuncs)
 						x({...props, injections: _injections})
-					}
+
 
 					unsub()
 				}
