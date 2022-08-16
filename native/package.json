@@ -1,0 +1,23 @@
+{
+  "name": "mage-native",
+  "repository": "git@github.com:barelyhuman/mage.git",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": "./dist/index.mjs",
+  "private": true,
+  "author": "Reaper <ahoy@barelyhuman.dev>",
+  "scripts": {
+    "build": "tsup index.ts --format cjs,esm --dts --target=node12.22",
+    "dev": "pnpm build -- --watch"
+  },
+  "prettier": "@barelyhuman/prettier-config",
+  "peerDependencies": {
+    "@barelyhuman/mage": "*",
+    "valtio": "*",
+    "react": "*",
+    "@react-navigation/native": "*"
+  },
+  "packageManager": "pnpm@6.32.25"
+}

@@ -1,10 +1,9 @@
+import { createState, makeReactive } from '@barelyhuman/mage'
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react'
 import test from 'ava'
 // @ts-ignore
 import browserEnv from 'browser-env'
 import React from 'react'
-
-import { createState, makeReactive } from '../core/index'
 
 browserEnv()
 

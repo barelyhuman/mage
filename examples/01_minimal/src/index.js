@@ -1,7 +1,7 @@
+import {makeReactive} from '@barelyhuman/mage'
 import React from 'react'
 import {createRoot} from 'react-dom/client.js'
 import {proxy} from 'valtio'
-import {makeReactive} from '@barelyhuman/mage'
 
 const state = proxy({
 	count: 0,
