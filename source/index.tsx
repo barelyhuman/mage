@@ -5,18 +5,18 @@ type HookFunc<Props> = (props: Props) => void
 
 type WrappedReactHook<Props> = (props: Props) => () => any
 
-export function createState<S extends object>(intitial: S) {
+export function createState<S extends Record<string, unknown>>(intitial: S) {
 	return proxy(intitial)
 }
 
-export function makeReactive<S extends object>(state: S) {
-	return function createWrapper<Props>(
+export function makeReactive<S extends Record<string, unknown>>(state: S) {
+	return function <Props>(
 		Component: React.FC<Props & {state: S; injections: Record<string, unknown>}>
 	) {
-		let mountFuncs: HookFunc<Props>[] = []
-		let unMountFuncs: HookFunc<Props>[] = []
+		const mountFuncs: Array<HookFunc<Props>> = []
+		const unMountFuncs: Array<HookFunc<Props>> = []
 		let _injections: Record<string, WrappedReactHook<Props>> = {}
-		let injectedData: Record<string, unknown> = {}
+		const injectedData: Record<string, unknown> = {}
 
 		function Wrapper({...props}: Props) {
 			const s = useState({})
@@ -26,6 +26,7 @@ export function makeReactive<S extends object>(state: S) {
 				if (!(hookWrapper && typeof hookWrapper === 'function')) {
 					continue
 				}
+
 				injectedData[key] = hookWrapper(props)()
 			}
 
@@ -34,14 +35,15 @@ export function makeReactive<S extends object>(state: S) {
 					s[1]({})
 				})
 
-				mountFuncs.forEach((x) => {
-					x(props)
-				})
+				for (const x of mountFuncs) {
+					x({...props, injections: _injections})
+				}
 
 				return () => {
-					unMountFuncs.forEach((x) => {
-						x(props)
-					})
+					for (const x of unMountFuncs) {
+						x({...props, injections: _injections})
+					}
+
 					unsub()
 				}
 			}, [])
@@ -51,6 +53,7 @@ export function makeReactive<S extends object>(state: S) {
 		Wrapper.onMount = (fn: HookFunc<Props>) => {
 			mountFuncs.push(fn)
 		}
+
 		Wrapper.onDestroy = (fn: HookFunc<Props>) => {
 			unMountFuncs.push(fn)
 		}
