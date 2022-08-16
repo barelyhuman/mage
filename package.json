@@ -46,6 +46,8 @@
     "_internal/package.json"
   ],
   "scripts": {
+    "csb:install": "pnpm i -g pnpm@6",
+    "csb:build": "pnpm install && pnpm build",
     "fix": "eslint --fix . --ext .ts,.tsx",
     "build": "pnpm run build -r",
     "examples:01_minimal": "DIR=01_minimal EXT=js webpack serve",
