@@ -1,8 +1,7 @@
-import React from 'react'
-import {createRoot} from 'react-dom/client'
+import React, {useState} from 'react'
+import {createRoot} from 'react-dom/client.js'
 import {proxy} from 'valtio'
 import {makeReactive} from '@barelyhuman/mage'
-import {useState} from 'react'
 
 const state = proxy({
 	count: 0,
@@ -47,4 +46,4 @@ const App = () => {
 	)
 }
 
-createRoot(document.getElementById('app')).render(<App />)
+createRoot(document.querySelector('#app')).render(<App />)

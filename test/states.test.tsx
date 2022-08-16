@@ -1,10 +1,10 @@
-//@ts-ignore
+// @ts-expect-error types for browser-env are missing
 import browserEnv from 'browser-env'
 
 import React from 'react'
 import test from 'ava'
-import {createState, makeReactive} from '../source/index.jsx'
 import {fireEvent, render, waitFor, cleanup} from '@testing-library/react'
+import {createState, makeReactive} from '../source/index.jsx'
 
 browserEnv()
 
@@ -46,7 +46,7 @@ test.serial('should add 1 additional render on state change', async (t) => {
 
 	const {getByText} = render(<ReactiveComponent />)
 
-	let initialRender = renders
+	const initialRender = renders
 
 	fireEvent.click(getByText('inc'))
 	await waitFor(() => getByText('1'))
@@ -56,12 +56,11 @@ test.serial('should add 1 additional render on state change', async (t) => {
 	}
 
 	t.pass()
-	return
 })
 
 test.serial('should take state from the onMount value', async (t) => {
 	const state = createState({count: 0})
-	let onMountValue = 10
+	const onMountValue = 10
 	function Component() {
 		return (
 			<>
@@ -69,15 +68,14 @@ test.serial('should take state from the onMount value', async (t) => {
 			</>
 		)
 	}
+
 	const ReactiveComponent = makeReactive(state)(Component)
 	ReactiveComponent.onMount((_) => {
 		state.count = onMountValue
 	})
 	const {getByText} = render(<ReactiveComponent />)
-	// need to wait for a mount and then re-render before it changes to the
+	// Need to wait for a mount and then re-render before it changes to the
 	// given mounted value
 	const elm = await waitFor(() => getByText(onMountValue))
-	t.assert('' + onMountValue, elm.innerText)
+	t.assert(String(onMountValue), elm.innerText)
 })
-
-

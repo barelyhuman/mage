@@ -1,5 +1,5 @@
 import React from 'react'
-import {createRoot} from 'react-dom/client'
+import {createRoot} from 'react-dom/client.js'
 import {proxy} from 'valtio'
 import {makeReactive} from '@barelyhuman/mage'
 
@@ -30,4 +30,4 @@ const App = () => {
 	)
 }
 
-createRoot(document.getElementById('app')).render(<App />)
+createRoot(document.querySelector('#app')).render(<App />)
