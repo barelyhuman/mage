@@ -46,7 +46,7 @@
     "_internal/package.json"
   ],
   "scripts": {
-    "fix": "eslint --fix .",
+    "fix": "eslint --fix . --ext .ts,.tsx",
     "build": "pnpm run build -r",
     "examples:01_minimal": "DIR=01_minimal EXT=js webpack serve",
     "examples:02_basic_api": "DIR=02_basic_api EXT=js webpack serve",
