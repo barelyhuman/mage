@@ -1,5 +1,5 @@
 {
-  "name": "mage-core",
+  "name": "mage-native",
   "repository": "git@github.com:barelyhuman/mage.git",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -16,7 +16,8 @@
   "peerDependencies": {
     "@barelyhuman/mage": "*",
     "valtio": "*",
-    "react": "*"
+    "react": "*",
+    "@react-navigation/native": "*"
   },
   "packageManager": "pnpm@6.32.25"
 }

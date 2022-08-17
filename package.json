@@ -20,17 +20,35 @@
       "module": "./core/dist/index.mjs",
       "require": "./core/dist/index.js",
       "types": "./core/dist/index.d.ts"
+    },
+    "./native": {
+      "import": "./native/dist/index.mjs",
+      "module": "./native/dist/index.mjs",
+      "require": "./native/dist/index.js",
+      "types": "./native/dist/index.d.ts"
+    },
+    "./_internal": {
+      "import": "./_internal/dist/index.mjs",
+      "module": "./_internal/dist/index.esm.js",
+      "require": "./_internal/dist/index.js",
+      "types": "./_internal/dist/_internal/index.d.ts"
     }
   },
   "main": "./core/dist/index.js",
   "module": "./core/dist/index.mjs",
   "types": "./core/dist/core/index.d.ts",
   "files": [
-    "core/dist/**",
-    "package.json"
+    "core/dist/**/*.{js,d.ts,mjs}",
+    "native/dist/**/*.{js,d.ts,mjs}",
+    "_internal/dist/**/*.{js,d.ts,mjs}",
+    "core/package.json",
+    "native/package.json",
+    "_internal/package.json"
   ],
   "scripts": {
-    "fix": "eslint --fix .",
+    "csb:install": "pnpm i -g pnpm@6",
+    "csb:build": "pnpm install && pnpm build",
+    "fix": "eslint --fix . --ext .ts,.tsx",
     "build": "pnpm run build -r",
     "examples:01_minimal": "DIR=01_minimal EXT=js webpack serve",
     "examples:02_basic_api": "DIR=02_basic_api EXT=js webpack serve",
@@ -42,27 +60,31 @@
   },
   "prettier": "@barelyhuman/prettier-config",
   "ava": {
-		"extensions": {
-			"ts": "module",
-			"tsx": "module"
-		},
-		"nodeArguments": [
-			"--loader=ts-node/esm"
-		],
-		"require": [
-			"tsm"
-		]
-	},
+    "extensions": [
+      "cjs",
+      "mjs",
+      "js",
+      "ts",
+      "tsx"
+    ],
+    "files": [
+      "test/*"
+    ],
+    "require": [
+      "tsm"
+    ]
+  },
   "devDependencies": {
     "@antfu/ni": "0.16.2",
     "@ava/typescript": "^3.0.1",
     "@barelyhuman/mage": "workspace:*",
     "@barelyhuman/prettier-config": "1.1.0",
+    "@react-navigation/native": "^6.0.11",
     "@testing-library/react": "^13.3.0",
     "@types/node": "^17.0.45",
     "@types/react": "^18.0.17",
     "@typescript-eslint/parser": "^5.28.0",
-    "ava": "^4.2.0",
+    "ava": "^4.3.1",
     "browser-env": "^3.3.0",
     "bumpp": "^8.2.1",
     "del-cli": "^4.0.1",
@@ -77,23 +99,25 @@
     "react-dom": "^18.0.0",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.3.1",
-    "ts-node": "^10.7.0",
     "tsm": "^2.2.2",
     "tsup": "6.2.2",
     "typescript": "^4.7.4",
     "valtio": "^1.6.3",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.8.1",
-    "xo": "^0.48.0"
+    "webpack-dev-server": "^4.8.1"
   },
   "peerDependencies": {
     "react": "^18.0.0",
-    "valtio": "^1.6.3"
+    "valtio": "^1.6.3",
+    "@react-navigation/native": "^6.0.0"
+  },
+  "optionalDependencies": {
+    "@react-navigation/native": "^6.0.0"
   },
   "packageManager": "pnpm@6.32.25",
   "engines": {
-    "node": ">=12"
+    "pnpm": "6"
   },
   "publishConfig": {
     "access": "public"

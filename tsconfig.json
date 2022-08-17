@@ -12,9 +12,10 @@
     "jsx": "react",
     "lib": ["esnext", "dom"],
     "paths": {
-      "@barelyhuman/choxy": ["./core/index.ts"]
+      "@barelyhuman/mage": ["./core/index.ts"],
+			"@barelyhuman/mage/native": ["./native/index.ts"],
+			"@barelyhuman/mage/_internal": ["./_internal/index.ts"]
     }
   },
-  "include": ["core"],
   "exclude": ["./**/dist", "node_modules", "test"]
 }

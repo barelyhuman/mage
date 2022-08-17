@@ -1,5 +1,4 @@
 {
-  "name": "mage-core",
   "repository": "git@github.com:barelyhuman/mage.git",
   "license": "MIT",
   "main": "./dist/index.js",

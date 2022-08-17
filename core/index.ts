@@ -1,1 +1,1 @@
-export * from './mage'
+export { createState, makeReactive } from './mage'
