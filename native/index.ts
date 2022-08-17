@@ -1,1 +1,1 @@
-export * from './mage'
+export * from './on-focus'
