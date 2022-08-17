@@ -112,8 +112,10 @@
     "valtio": "^1.6.3",
     "@react-navigation/native": "^6.0.0"
   },
-  "optionalDependencies": {
-    "@react-navigation/native": "^6.0.0"
+  "peerDependenciesMeta": {
+    "@react-navigation/native": {
+      "optional": true
+    }
   },
   "packageManager": "pnpm@6.32.25",
   "engines": {
