@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>mage | documentation</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<section class="container">
+			<div class="flex spread centerV">
+				<a href="."><h1>Mage</h1></a>
+				<a href="https://github.com/barelyhuman/mage">github</a>
+			</div>
+		</section>
+<header class="container">
+<nav>
+
+
+    <a href=/mage/index>..</a>
+
+    <a href=/mage/01-basics> basics</a>
+
+    <a href=/mage/02-lifecycle> lifecycle</a>
+
+    <a href=/mage/03-injections> injections</a>
+
+    <a href=/mage/04-api> api</a>
+
+    <a href=/mage/05-helpers> helpers</a>
+
+</nav>
+</header>
+<main class="container">
+<h1 id="helpers">Helpers</h1>
+<p>These are injections or methods that you'll be using quite a lot during<br />
+development and this list will grow as people add more such helpers.</p>
+<h4 id="onfocus"><code>onFocus</code></h4>
+<p>Simple abstraction over the <code>@react-navigation/native</code>'s <code>useFocusEffect</code> hook,<br />
+with a slight change that it's only passed the initial props passed during<br />
+navigation to the screen.</p>
+<p>If re-routing to the same screen with new props use the <code>navigation.push()</code><br />
+instead of <code>navigation.navigate()</code> since it's supposed to be a new render and<br />
+not an old one. The same can be done by using <code>navigation.replace()</code>.</p>
+<p>Eg:</p>
+<pre><code class="language-js">import { onFocus } from '@barelyhuman/mage/native'
+
+ReactiveComponent.inject({
+  onFocus: onFocus(initialProps =&gt; {
+    console.log('trigger this when a react native navigation stack is in focus')
+  }),
+})
+</code></pre>
+</main><footer class="container">
+    Built with <a href="http://codeberg.org/reaper/alvu">alvu</a>
+</footer>
+</body>
+</html>
