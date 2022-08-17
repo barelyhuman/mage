@@ -3,10 +3,10 @@ import { useCallback } from 'react'
 export { createState } from '@barelyhuman/mage'
 
 export function onFocus(cb) {
-  return () => () => {
+  return props => () => {
     useFocusEffect(
       useCallback(() => {
-        cb()
+        cb(props)
       }, [])
     )
   }
