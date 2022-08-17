@@ -17,3 +17,4 @@ pages: docs
 	git add -A; git commit -m "update pages"; git push origin gh-pages;
 	git checkout main
 	rm -rf .tmp
+	pnpm i
