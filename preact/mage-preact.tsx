@@ -1,6 +1,7 @@
 import { createSubscribeHOC } from '@barelyhuman/mage/_internal'
 import { useEffect, useLayoutEffect, useState } from 'preact/hooks'
-import { h, FunctionComponent } from 'preact'
+import { h } from 'preact'
+import type { FunctionComponent } from 'preact'
 
 import { subscribe } from 'valtio/vanilla'
 

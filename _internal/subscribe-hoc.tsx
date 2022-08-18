@@ -16,7 +16,7 @@ export function createSubscribeHOC<Props, State extends object>(
   subscribeFunc: subscribeFunc,
   useEffectFunc,
   useStateFunc,
-  pragma
+  jsxPragma
 ) {
   const mountFuncs: Array<HookFunc<Props>> = []
   const unMountFuncs: Array<HookFunc<Props>> = []
@@ -46,11 +46,14 @@ export function createSubscribeHOC<Props, State extends object>(
         unsub()
       }
     }, [])
-    return pragma(Component, {
-      state,
-      injections: injectedData,
-      ...props,
-    })
+    return jsxPragma(
+      Component,
+      {
+        state,
+        injections: injectedData,
+        ...props,
+      },
+    )
   }
 
   Wrapper.onMount = (fn: HookFunc<Props>) => {
