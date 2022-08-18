@@ -1,7 +1,7 @@
 {
   "packages": ["."],
-	"node": "14",
-  "sandboxes": ["vanilla", "new", "/examples/01_minimal"],
-	"installCommand": "csb:install",
+  "node": "14",
+  "sandboxes": ["vanilla", "new", "preact", "/examples/01_minimal"],
+  "installCommand": "csb:install",
   "buildCommand": "csb:build"
 }
