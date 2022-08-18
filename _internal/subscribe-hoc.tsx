@@ -1,5 +1,5 @@
-import { FunctionComponent } from 'preact'
-import React, { useState } from 'react'
+import type { FunctionComponent } from 'preact'
+import type { FC } from 'react'
 
 type HookFunc<Props> = (props: Props) => void
 
@@ -12,9 +12,11 @@ type subscribeFunc = <T extends object>(
 
 export function createSubscribeHOC<Props, State extends object>(
   state: State,
-  Component: React.FC<Props> | FunctionComponent<Props>,
+  Component: FC<Props> | FunctionComponent<Props>,
   subscribeFunc: subscribeFunc,
-  useEffectFunc
+  useEffectFunc,
+  useStateFunc,
+  pragma
 ) {
   const mountFuncs: Array<HookFunc<Props>> = []
   const unMountFuncs: Array<HookFunc<Props>> = []
@@ -22,7 +24,7 @@ export function createSubscribeHOC<Props, State extends object>(
   const injectedData: Record<string, unknown> = {}
 
   function Wrapper({ ...props }: Props) {
-    const s = useState({})
+    const s = useStateFunc({})
 
     for (const key in _injections) {
       const hookWrapper = _injections[key]
@@ -44,7 +46,11 @@ export function createSubscribeHOC<Props, State extends object>(
         unsub()
       }
     }, [])
-    return <Component state={state} injections={injectedData} {...props} />
+    return pragma(Component, {
+      state,
+      injections: injectedData,
+      ...props,
+    })
   }
 
   Wrapper.onMount = (fn: HookFunc<Props>) => {

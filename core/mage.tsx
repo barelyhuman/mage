@@ -1,5 +1,5 @@
 import { createSubscribeHOC } from '@barelyhuman/mage/_internal'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { subscribe } from 'valtio'
 
 export { createState } from '@barelyhuman/mage/_internal'
@@ -16,6 +16,13 @@ export function makeReactive<S extends Record<string, unknown>>(state: S) {
       Props & { state?: S; injections?: Record<string, unknown> }
     >
   ) {
-    return createSubscribeHOC(state, Component, subscribe, useEffectFunc)
+    return createSubscribeHOC(
+      state,
+      Component,
+      subscribe,
+      useEffectFunc,
+      useState,
+      React.createElement
+    )
   }
 }

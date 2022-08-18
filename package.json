@@ -62,7 +62,8 @@
     "nuke": "find . -name 'node_modules' -type d -prune | xargs rm -rf",
     "nuke:dist": "find . -name 'dist' -type d -prune -maxdepth 1 | xargs rm -rf",
     "release": "np",
-    "test": "ava",
+    "test:react": "ava test/react",
+    "test:preact": "ava test/preact",
     "version": "npm run build"
   },
   "prettier": "@barelyhuman/prettier-config",
@@ -71,11 +72,8 @@
       "cjs",
       "mjs",
       "js",
-      "ts",
-      "tsx"
-    ],
-    "files": [
-      "test/*"
+      "tsx",
+			"ts"
     ],
     "require": [
       "tsm"
@@ -87,6 +85,7 @@
     "@barelyhuman/mage": "workspace:*",
     "@barelyhuman/prettier-config": "1.1.0",
     "@react-navigation/native": "^6.0.11",
+    "@testing-library/preact": "^3.2.2",
     "@testing-library/react": "^13.3.0",
     "@types/node": "^17.0.45",
     "@types/react": "^18.0.17",
@@ -117,9 +116,9 @@
   },
   "peerDependencies": {
     "@react-navigation/native": "^6.0.0",
+    "preact": "^10.0.0",
     "react": "^18.0.0",
-    "valtio": "^1.6.3",
-    "preact": "^10.0.0"
+    "valtio": "^1.6.3"
   },
   "peerDependenciesMeta": {
     "@react-navigation/native": {
