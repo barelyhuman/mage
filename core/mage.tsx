@@ -1,6 +1,6 @@
 import { createSubscribeHOC } from '@barelyhuman/mage/_internal'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { subscribe } from 'valtio'
+import { subscribe } from 'valtio/vanilla'
 
 export { createState } from '@barelyhuman/mage/_internal'
 
