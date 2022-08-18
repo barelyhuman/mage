@@ -47,9 +47,11 @@
     "core/dist/**/*.{js,d.ts,mjs}",
     "native/dist/**/*.{js,d.ts,mjs}",
     "_internal/dist/**/*.{js,d.ts,mjs}",
+    "preact/dist/**/*.{js,d.ts,mjs}",
     "core/package.json",
     "native/package.json",
-    "_internal/package.json"
+    "_internal/package.json",
+    "preact/package.json"
   ],
   "scripts": {
     "csb:install": "pnpm i -g pnpm@6",
@@ -73,7 +75,7 @@
       "mjs",
       "js",
       "tsx",
-			"ts"
+      "ts"
     ],
     "require": [
       "tsm"
