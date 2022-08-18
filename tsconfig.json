@@ -13,8 +13,9 @@
     "lib": ["esnext", "dom"],
     "paths": {
       "@barelyhuman/mage": ["./core/index.ts"],
-			"@barelyhuman/mage/native": ["./native/index.ts"],
-			"@barelyhuman/mage/_internal": ["./_internal/index.ts"]
+      "@barelyhuman/mage/preact": ["./preact/index.ts"],
+      "@barelyhuman/mage/native": ["./native/index.ts"],
+      "@barelyhuman/mage/_internal": ["./_internal/index.ts"]
     }
   },
   "exclude": ["./**/dist", "node_modules", "test"]

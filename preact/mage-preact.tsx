@@ -1,5 +1,7 @@
 import { createSubscribeHOC } from '@barelyhuman/mage/_internal'
-import React, { useEffect, useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'preact/hooks'
+import { FunctionComponent } from 'preact'
+
 import { subscribe } from 'valtio'
 
 export { createState } from '@barelyhuman/mage/_internal'
@@ -12,7 +14,7 @@ const useEffectFunc =
 
 export function makeReactive<S extends Record<string, unknown>>(state: S) {
   return function <Props>(
-    Component: React.FC<
+    Component: FunctionComponent<
       Props & { state?: S; injections?: Record<string, unknown> }
     >
   ) {

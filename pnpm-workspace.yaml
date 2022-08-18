@@ -1,4 +1,5 @@
 packages:
-  - 'core'
-  - 'native'
   - '_internal'
+  - 'core'
+  - 'preact'
+  - 'native'

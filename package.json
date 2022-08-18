@@ -21,6 +21,12 @@
       "require": "./core/dist/index.js",
       "types": "./core/dist/index.d.ts"
     },
+    "./preact": {
+      "import": "./preact/dist/index.mjs",
+      "module": "./preact/dist/index.mjs",
+      "require": "./preact/dist/index.js",
+      "types": "./preact/dist/index.d.ts"
+    },
     "./native": {
       "import": "./native/dist/index.mjs",
       "module": "./native/dist/index.mjs",
@@ -54,6 +60,7 @@
     "examples:02_basic_api": "DIR=02_basic_api EXT=js webpack serve",
     "next": "bumpp",
     "nuke": "find . -name 'node_modules' -type d -prune | xargs rm -rf",
+    "nuke:dist": "find . -name 'dist' -type d -prune -maxdepth 1 | xargs rm -rf",
     "release": "np",
     "test": "ava",
     "version": "npm run build"
@@ -94,6 +101,7 @@
     "eslint-plugin-simple-import-sort": "7.0.0",
     "html-webpack-plugin": "^5.5.0",
     "np": "^7.6.1",
+    "preact": "^10.10.3",
     "prettier": "^2.6.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -108,12 +116,19 @@
     "webpack-dev-server": "^4.8.1"
   },
   "peerDependencies": {
+    "@react-navigation/native": "^6.0.0",
     "react": "^18.0.0",
     "valtio": "^1.6.3",
-    "@react-navigation/native": "^6.0.0"
+    "preact": "^10.0.0"
   },
   "peerDependenciesMeta": {
     "@react-navigation/native": {
+      "optional": true
+    },
+    "preact": {
+      "optional": true
+    },
+    "react": {
       "optional": true
     }
   },

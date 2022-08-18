@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'preact'
 import React, { useState } from 'react'
 
 type HookFunc<Props> = (props: Props) => void
@@ -11,7 +12,7 @@ type subscribeFunc = <T extends object>(
 
 export function createSubscribeHOC<Props, State extends object>(
   state: State,
-  Component: React.FC<Props>,
+  Component: React.FC<Props> | FunctionComponent<Props>,
   subscribeFunc: subscribeFunc,
   useEffectFunc
 ) {
