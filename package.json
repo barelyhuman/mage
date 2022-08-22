@@ -56,7 +56,8 @@
     "nuke": "find . -name 'node_modules' -type d -prune | xargs rm -rf",
     "release": "np",
     "test": "ava",
-    "version": "npm run build"
+    "version": "npm run build",
+    "prepack": "clean-pkg-json"
   },
   "prettier": "@barelyhuman/prettier-config",
   "ava": {
@@ -87,6 +88,7 @@
     "ava": "^4.3.1",
     "browser-env": "^3.3.0",
     "bumpp": "^8.2.1",
+    "clean-pkg-json": "^1.0.1",
     "del-cli": "^4.0.1",
     "eslint": "8.18.0",
     "eslint-config-prettier": "8.5.0",
@@ -108,9 +110,9 @@
     "webpack-dev-server": "^4.8.1"
   },
   "peerDependencies": {
+    "@react-navigation/native": "^6.0.0",
     "react": "^18.0.0",
-    "valtio": "^1.6.3",
-    "@react-navigation/native": "^6.0.0"
+    "valtio": "^1.6.3"
   },
   "peerDependenciesMeta": {
     "@react-navigation/native": {
