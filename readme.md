@@ -1,4 +1,6 @@
-> **Note**: This repo has been archived because a better more cleaner implementation of the event based re-render has been implemented with [@preact/signals](https://preactjs.com/blog/introducing-signals/)
+> **Warning**: This repo has been archived because a better more cleaner implementation of the event based re-render has been implemented with [@preact/signals](https://preactjs.com/blog/introducing-signals/)
+
+> **Note**: Please fork the repo if you wish to extend on this or use this instead. A final version of the same as been released in case people are using it.
 
 # @barelyhuman/mage
 
