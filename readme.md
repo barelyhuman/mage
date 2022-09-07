@@ -1,3 +1,5 @@
+> **Note**: This repo has been archived because a better more cleaner implementation of the event based re-render has been implemented with [@preact/signals](https://preactjs.com/blog/introducing-signals/)
+
 # @barelyhuman/mage
 
 > stateful + logical abstraction layer for react
