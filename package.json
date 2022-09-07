@@ -1,6 +1,6 @@
 {
   "name": "@barelyhuman/mage",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "stateful + logical abstraction layer for react",
   "keywords": [
     "nohook",
